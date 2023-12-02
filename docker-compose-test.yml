@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  jrtb-db:
+    image: postgres
+    restart: always
+    container_name: dev-jrtb-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "dev_jrtb_db"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
