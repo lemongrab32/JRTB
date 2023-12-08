@@ -11,7 +11,7 @@ public class StartCommand implements Command{
     private final TelegramUserService telegramUserService;
 
     public final static String START_MESSAGE = "Привет, я Javarush Telegram Bot." +
-            "Я помогу тебе быть в курсе последних статей тех авторов, которые тебе" +
+            "Я помогу вам быть в курсе последних статей тех авторов, которые вам" +
             "интересны. Я ещё маленький и только учусь.";
 
     public StartCommand(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
