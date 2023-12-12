@@ -1,15 +1,15 @@
 package com.github.javarushcommunity.javarushtelegrambot.javarushclient;
 
-import com.github.javarushcommunity.javarushtelegrambot.javarushclient.dto.GroupCountRequestArgs;
-import com.github.javarushcommunity.javarushtelegrambot.javarushclient.dto.GroupDiscussionInfo;
-import com.github.javarushcommunity.javarushtelegrambot.javarushclient.dto.GroupInfo;
-import com.github.javarushcommunity.javarushtelegrambot.javarushclient.dto.GroupRequestArgs;
+import com.github.javarushcommunity.javarushtelegrambot.javarushclient.dto.*;
 import kong.unirest.GenericType;
 import kong.unirest.Unirest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
 public class JavaRushGroupClientImpl implements JavaRushGroupClient{
@@ -38,8 +38,8 @@ public class JavaRushGroupClientImpl implements JavaRushGroupClient{
     }
 
     @Override
-    public Integer getGroupCount(GroupCountRequestArgs countRequestArgs) {
-        return Integer.valueOf(
+    public Long getGroupCount(GroupCountRequestArgs countRequestArgs) {
+        return Long.valueOf(
                 Unirest.get(String.format("%s/count", javarushApiGroupPath))
                         .queryString(countRequestArgs.populateQueries())
                         .asString()
@@ -48,9 +48,21 @@ public class JavaRushGroupClientImpl implements JavaRushGroupClient{
     }
 
     @Override
-    public GroupDiscussionInfo getGroupById(Integer id) {
+    public GroupDiscussionInfo getGroupById(Long id) {
         return Unirest.get(String.format("%s/group%s", javarushApiGroupPath, id.toString()))
                 .asObject(GroupDiscussionInfo.class)
                 .getBody();
+    }
+
+    @Override
+    public Long findLastPostId(Long groupSubId) {
+        List<PostInfo> posts = Unirest.get(javarushApiGroupPath + "/posts")
+                .queryString("order", "NEW")
+                .queryString("groupKid", groupSubId.toString())
+                .queryString("limit", "1")
+                .asObject(new GenericType<List<PostInfo>>() {
+                })
+                .getBody();
+        return (long) (isEmpty(posts) ? 0 : Optional.ofNullable(posts.get(0)).map(PostInfo::getId).orElse(0));
     }
 }

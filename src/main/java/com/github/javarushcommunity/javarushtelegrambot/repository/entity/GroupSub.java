@@ -16,13 +16,13 @@ import static java.util.Objects.isNull;
 public class GroupSub {
 
     @Id
-    private Integer id;
+    private Long id;
 
     @Column(name = "title")
     private String title;
 
     @Column(name = "last_article_id")
-    private Integer lastArticleId;
+    private Long lastArticleId;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

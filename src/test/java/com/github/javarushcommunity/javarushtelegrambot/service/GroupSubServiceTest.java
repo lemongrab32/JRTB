@@ -1,5 +1,6 @@
 package com.github.javarushcommunity.javarushtelegrambot.service;
 
+import com.github.javarushcommunity.javarushtelegrambot.javarushclient.JavaRushGroupClient;
 import com.github.javarushcommunity.javarushtelegrambot.javarushclient.dto.GroupDiscussionInfo;
 import com.github.javarushcommunity.javarushtelegrambot.repository.GroupSubRepository;
 import com.github.javarushcommunity.javarushtelegrambot.repository.entity.GroupSub;
@@ -17,14 +18,16 @@ public class GroupSubServiceTest {
     private GroupSubService groupSubService;
     private GroupSubRepository groupSubRepository;
     private TelegramUser newUser;
+    private JavaRushGroupClient javaRushGroupClient;
 
-    private final static String CHAT_ID = "1";
+    private final static Long CHAT_ID = 1L;
 
     @BeforeEach
     public void init() {
         TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
         groupSubRepository = Mockito.mock(GroupSubRepository.class);
-        groupSubService = new GroupSubServiceImpl(groupSubRepository, telegramUserService);
+        javaRushGroupClient = Mockito.mock(JavaRushGroupClient.class);
+        groupSubService = new GroupSubServiceImpl(groupSubRepository, telegramUserService, javaRushGroupClient);
 
         newUser = new TelegramUser();
         newUser.setActive(true);
@@ -37,7 +40,7 @@ public class GroupSubServiceTest {
     public void shouldProperlySaveGroup() {
         //given
         GroupDiscussionInfo groupDiscussionInfo = new GroupDiscussionInfo();
-        groupDiscussionInfo.setId(1);
+        groupDiscussionInfo.setId(1L);
         groupDiscussionInfo.setTitle("g1");
 
         GroupSub expectedGroupSub = new GroupSub();
@@ -56,11 +59,11 @@ public class GroupSubServiceTest {
     public void shouldProperlyAddUserToExistingGroup() {
         //given
         TelegramUser oldTelegramUser = new TelegramUser();
-        oldTelegramUser.setChatId("2");
+        oldTelegramUser.setChatId(2L);
         oldTelegramUser.setActive(true);
 
         GroupDiscussionInfo groupDiscussionInfo = new GroupDiscussionInfo();
-        groupDiscussionInfo.setId(1);
+        groupDiscussionInfo.setId(1L);
         groupDiscussionInfo.setTitle("g1");
 
         GroupSub groupFromDB = new GroupSub();
