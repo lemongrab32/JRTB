@@ -4,6 +4,7 @@ import com.github.javarushcommunity.javarushtelegrambot.javarushclient.JavaRushG
 import com.github.javarushcommunity.javarushtelegrambot.repository.TelegramUserRepository;
 import com.github.javarushcommunity.javarushtelegrambot.service.GroupSubService;
 import com.github.javarushcommunity.javarushtelegrambot.service.SendBotMessageService;
+import com.github.javarushcommunity.javarushtelegrambot.service.StatisticsService;
 import com.github.javarushcommunity.javarushtelegrambot.service.TelegramUserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @DisplayName("Unit-level testing for CommandContainer")
 public class CommandContainerTest {
@@ -24,8 +26,13 @@ public class CommandContainerTest {
         TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
         JavaRushGroupClient groupClient = Mockito.mock(JavaRushGroupClient.class);
         GroupSubService groupSubService = Mockito.mock(GroupSubService.class);
+        StatisticsService statisticsService = Mockito.mock(StatisticsService.class);
 
-        commandContainer = new CommandContainer(sendBotMessageService, telegramUserService, groupClient, groupSubService);
+        commandContainer = new CommandContainer(sendBotMessageService,
+                telegramUserService,
+                groupClient,
+                groupSubService,
+                Collections.singletonList("username"), statisticsService);
     }
 
     @Test
@@ -34,7 +41,7 @@ public class CommandContainerTest {
         Arrays.stream(CommandName.values())
                 .forEach(commandName -> {
                     Command command = commandContainer.
-                            retrieveCommand(commandName.getCommandName());
+                            retrieveCommand(commandName.getCommandName(), "username");
                     Assertions.assertNotEquals(UnknownCommand.class, command.getClass());
                 });
     }
@@ -45,7 +52,7 @@ public class CommandContainerTest {
         String unknownCommand = "/slkafkds";
 
         //when
-        Command command = commandContainer.retrieveCommand(unknownCommand);
+        Command command = commandContainer.retrieveCommand(unknownCommand, "username");
 
         //then
         Assertions.assertEquals(UnknownCommand.class, command.getClass());

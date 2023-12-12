@@ -23,7 +23,7 @@ public class JavaRushPostClientImpl implements JavaRushPostClient{
         List<PostInfo> lastPostsByGroup = Unirest.get(javarushApiPostPath)
                 .queryString("order", "NEW")
                 .queryString("groupKid", groupId)
-                .queryString("limit", 15)
+                .queryString("limit", 1)
                 .asObject(new GenericType<List<PostInfo>>() {
                 }).getBody();
 

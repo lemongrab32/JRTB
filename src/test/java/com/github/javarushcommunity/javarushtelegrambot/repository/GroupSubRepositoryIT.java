@@ -27,7 +27,7 @@ public class GroupSubRepositoryIT {
     @Test
     public void shouldProperlyGetAllUsersForGroupSub() {
         //when
-        Optional<GroupSub> groupSubFromDB = groupSubRepository.findById(1);
+        Optional<GroupSub> groupSubFromDB = groupSubRepository.findById(1L);
 
         //then
         Assertions.assertTrue(groupSubFromDB.isPresent());
