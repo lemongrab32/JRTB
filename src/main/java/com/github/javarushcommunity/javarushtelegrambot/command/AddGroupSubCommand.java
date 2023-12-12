@@ -40,12 +40,12 @@ public class AddGroupSubCommand implements Command {
         String groupId = getMessage(update).split(SPACE)[1];
         Long chatId = getChatId(update);
         if (isNumeric(groupId)) {
-            GroupDiscussionInfo groupById = javaRushGroupClient.getGroupById(Integer.parseInt(groupId));
+            GroupDiscussionInfo groupById = javaRushGroupClient.getGroupById(Long.parseLong(groupId));
             if (isNull(groupById.getId())) {
-                sendGroupNotFound(String.valueOf(chatId), groupId);
+                sendGroupNotFound(chatId, groupId);
             }
-            GroupSub savedGroupSub = groupSubService.save(String.valueOf(chatId), groupById);
-            sendBotMessageService.sendMessage(String.valueOf(chatId),
+            GroupSub savedGroupSub = groupSubService.save(chatId, groupById);
+            sendBotMessageService.sendMessage(chatId,
                     "Подписал на группу " + savedGroupSub.getTitle());
         }
         else {
@@ -53,14 +53,14 @@ public class AddGroupSubCommand implements Command {
         }
     }
 
-    private void sendGroupNotFound(String chatId, String groupId) {
+    private void sendGroupNotFound(Long chatId, String groupId) {
         String groupNotFoundMessage = "Нет группы с ID = \"%s\"";
         sendBotMessageService.sendMessage(chatId, String.format(groupNotFoundMessage, groupId));
     }
 
     private void sendNotValidGroupID(Long chatId, String groupId) {
         String groupNotFoundMessage = "Неправильный ID группы = \"%s\"";
-        sendBotMessageService.sendMessage(String.valueOf(chatId), String.format(groupNotFoundMessage, groupId));
+        sendBotMessageService.sendMessage(chatId, String.format(groupNotFoundMessage, groupId));
     }
 
     private void sendGroupIdList(Long chatId) {
@@ -74,7 +74,7 @@ public class AddGroupSubCommand implements Command {
                 "Имя группы - ID группы \n\n" +
                 "%s";
 
-        sendBotMessageService.sendMessage(String.valueOf(chatId), String.format(message, groupIds));
+        sendBotMessageService.sendMessage(chatId, String.format(message, groupIds));
     }
 
 }

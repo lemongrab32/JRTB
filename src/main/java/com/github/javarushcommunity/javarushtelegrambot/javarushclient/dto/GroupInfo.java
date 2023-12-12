@@ -7,7 +7,7 @@ import lombok.ToString;
 @ToString
 public class GroupInfo {
 
-    private Integer id;
+    private Long id;
     private String avatarUrl;
     private String createTime;
     private String description;

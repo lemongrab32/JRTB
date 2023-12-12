@@ -21,8 +21,7 @@ public class NoCommand implements Command{
     public void execute(Update update) {
         sendBotMessageService.sendMessage(update
                 .getMessage()
-                .getChatId()
-                .toString(), NO_MESSAGE);
+                .getChatId(), NO_MESSAGE);
     }
 
 }
