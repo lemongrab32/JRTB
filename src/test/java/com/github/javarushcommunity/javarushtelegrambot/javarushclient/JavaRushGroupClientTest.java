@@ -81,7 +81,7 @@ public class JavaRushGroupClientTest {
         GroupCountRequestArgs args = GroupCountRequestArgs.builder().build();
 
         //when
-        Integer groupCount = groupClient.getGroupCount(args);
+        Long groupCount = groupClient.getGroupCount(args);
 
         //then
         Assertions.assertEquals(35, groupCount);
@@ -95,7 +95,7 @@ public class JavaRushGroupClientTest {
                 .build();
 
         //when
-        Integer groupCount = groupClient.getGroupCount(args);
+        Long groupCount = groupClient.getGroupCount(args);
 
         //then
         Assertions.assertEquals(7, groupCount);
@@ -104,7 +104,7 @@ public class JavaRushGroupClientTest {
     @Test
     public void shouldProperlyGetGroupById() {
         //given
-        Integer androidGroupId = 16;
+        Long androidGroupId = 16L;
 
         //when
         GroupDiscussionInfo groupById = groupClient.getGroupById(androidGroupId);

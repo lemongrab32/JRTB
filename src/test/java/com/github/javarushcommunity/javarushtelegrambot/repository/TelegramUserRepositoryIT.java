@@ -38,7 +38,7 @@ public class TelegramUserRepositoryIT {
     public void shouldProperlySaveTelegramUser() {
         //given
         TelegramUser telegramUser = new TelegramUser();
-        telegramUser.setChatId("1234567890");
+        telegramUser.setChatId(1234567890L);
         telegramUser.setActive(false);
         telegramUserRepository.save(telegramUser);
 
@@ -54,7 +54,7 @@ public class TelegramUserRepositoryIT {
     @Test
     public void shouldProperlyGetAllGroupSubsForUser() {
         //when
-        Optional<TelegramUser> userFromDB = telegramUserRepository.findById("1");
+        Optional<TelegramUser> userFromDB = telegramUserRepository.findById(1L);
 
         //then
         Assertions.assertTrue(userFromDB.isPresent());
